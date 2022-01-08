@@ -32,11 +32,12 @@ on:
       SCP_SPACE:
         required: true
       JWT_SECRET:
-        required: true
+        required: false
 
 jobs:
   promoto_to_Heroku:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -74,8 +75,11 @@ jobs:
       run:
             cf bind-service ${{ inputs.SCP_APP_NAME }}_green ${{ inputs.SCP_DB_NAME }}
     - name: Set environment and start
+      if: ${{ secrets.JWT_SECRET }}
       run: |
             cf set-env ${{ inputs.SCP_APP_NAME }}_green JWT_SECRET "${{ secrets.JWT_SECRET }}"
+    - name: Start app
+      run: |
             cf start ${{ inputs.SCP_APP_NAME }}_green
     - name: Re-route trafic to updated app
       run: |
