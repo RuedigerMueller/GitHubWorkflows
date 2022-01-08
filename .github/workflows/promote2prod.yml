@@ -41,15 +41,15 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ inputs.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Pull image from Docker Hub, tag it as released and deploy & release on Heroku prod space
         run: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:undertest
-            docker tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:undertest ${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:released
-            docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:released
+            docker pull ${{ inputs.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:undertest
+            docker tag ${{ inputs.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:undertest ${{ inputs.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:released
+            docker push ${{ inputs.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:released
             echo ${{ secrets.HEROKU_API_KEY }} | docker login -u=_ --password-stdin registry.heroku.com
-            docker tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:released registry.heroku.com/${{ inputs.HEROKU_REPOSITORY }}/web
+            docker tag ${{ inputs.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:released registry.heroku.com/${{ inputs.HEROKU_REPOSITORY }}/web
             docker push registry.heroku.com/${{ inputs.HEROKU_REPOSITORY }}/web
             HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku container:release web --app ${{ inputs.HEROKU_REPOSITORY }}
   
