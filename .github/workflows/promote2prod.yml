@@ -32,7 +32,7 @@ on:
       SCP_SPACE:
         required: true
       JWT_SECRET:
-        required: false
+        required: true
 
 jobs:
   promoto_to_Heroku:
