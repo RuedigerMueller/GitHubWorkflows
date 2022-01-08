@@ -31,8 +31,8 @@ on:
         required: true
       SCP_SPACE:
         required: true
-      # JWT_SECRET:
-      #   required: false
+      JWT_SECRET:
+        required: false
 
 jobs:
   Heroku_promotion:
