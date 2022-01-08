@@ -16,7 +16,7 @@ on:
         required: true
         type: string
       SCP_DB_NAME:
-        required: true
+        required: false
         type: string
     secrets:
       DOCKERHUB_TOKEN:
