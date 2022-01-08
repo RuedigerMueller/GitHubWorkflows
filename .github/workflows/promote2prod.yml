@@ -31,11 +31,12 @@ on:
         required: true
       SCP_SPACE:
         required: true
-      JWT_SECRET:
-        required: false
+      # JWT_SECRET:
+      #   required: false
 
 jobs:
   promoto_to_Heroku:
+    environment: production
     runs-on: ubuntu-latest
     steps:
       - name: Login to DockerHub
