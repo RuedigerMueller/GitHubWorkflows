@@ -73,10 +73,15 @@ jobs:
     - name: Bind to DB if required
       if: ${{ inputs.SCP_DB_NAME }}
       run: cf bind-service ${{ inputs.SCP_APP_NAME }}_green ${{ inputs.SCP_DB_NAME }}
-    - name: Set environment and start
+    - name: Check if JWT_SECRET has to be set
+      id: CHECK_JWT
       env:
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      if: JWT_SECRET
+      run: |
+          echo "Enable set JWT_SECRET ${{ env.JWT_SECRET != '' }}"
+          echo "::set-output name=enableSetJWTSECRET::${{ env.JWT_SECRET != '' }}"
+    - name: Set environment and start
+      if: outputs.enableSetJWTSECRET == 'true'
       run: cf set-env ${{ inputs.SCP_APP_NAME }}_green JWT_SECRET "${{ secrets.JWT_SECRET }}"
     - name: Start app
       run: cf start ${{ inputs.SCP_APP_NAME }}_green
