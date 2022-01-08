@@ -86,7 +86,7 @@ jobs:
       run: cf start ${{ inputs.SCP_APP_NAME }}_green
     - name: Re-route trafic to updated app
       run: |
-            cf map-route ${{ inputs.SCP_APP_NAME }}_green cfapps.eu10.hana.ondemand.com --hostname v${{ inputs.SCP_APP_NAME }}
+            cf map-route ${{ inputs.SCP_APP_NAME }}_green cfapps.eu10.hana.ondemand.com --hostname ${{ inputs.SCP_APP_NAME }}
     - name: Unmap route to blue app and delete it
       run: |
             cf unmap-route ${{ inputs.SCP_APP_NAME }}_blue cfapps.eu10.hana.ondemand.com --hostname ${{ inputs.SCP_APP_NAME }}
