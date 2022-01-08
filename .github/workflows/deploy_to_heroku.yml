@@ -20,7 +20,7 @@ on:
 
 jobs:     
   deploy_to_heroku_for_manual_test:
-    needs: [build_docker_image]
+    #needs: [build_docker_image]
     runs-on: ubuntu-latest
     steps:
       - name: Pull image from Docker Hub, deploy & release on Heroku test space
