@@ -1,4 +1,4 @@
-name: Deploy image under test to Heroku for manual test
+name: Promote to production servers
 
 on:
   workflow_call:
@@ -35,8 +35,7 @@ on:
       #   required: false
 
 jobs:
-  promoto_to_Heroku:
-    environment: production
+  Heroku_promotion:
     runs-on: ubuntu-latest
     steps:
       - name: Login to DockerHub
@@ -54,8 +53,9 @@ jobs:
             docker push registry.heroku.com/${{ inputs.HEROKU_REPOSITORY }}/web
             HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku container:release web --app ${{ inputs.HEROKU_REPOSITORY }}
   
-  promote_to_SAP_BTP:
+  SAP_BTP_promotion:
     runs-on: ubuntu-latest
+    environment: production
     steps: 
     - name: Checkout code
       uses: actions/checkout@v2
