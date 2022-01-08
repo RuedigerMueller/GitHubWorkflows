@@ -12,9 +12,6 @@ on:
       HEROKU_REPOSITORY:
         required: true
         type: string
-      SCP_USER:
-        required: true
-        type: string
       SCP_APP_NAME:
         required: true
         type: string
@@ -25,6 +22,8 @@ on:
       DOCKERHUB_TOKEN:
         required: true
       HEROKU_API_KEY:
+        required: true
+      SCP_USER:
         required: true
       SCP_PASSWORD:
         required: true
@@ -67,7 +66,7 @@ jobs:
       run: |
             cf -v
             cf api https://api.cf.eu10.hana.ondemand.com
-            cf auth "${{ inputs.SCP_USER }}" "${{ secrets.SCP_PASSWORD }}"
+            cf auth "${{ secrets.SCP_USER }}" "${{ secrets.SCP_PASSWORD }}"
             cf target -o "${{ secrets.SCP_ORG }}" -s "${{ secrets.SCP_SPACE }}"
             cf push ${{ inputs.SCP_APP_NAME }}_green --no-start
             cf bind-service ${{ inputs.SCP_APP_NAME }}_green ${{ inputs.SCP_DB_NAME }}
