@@ -81,7 +81,7 @@ jobs:
           echo "Enable set JWT_SECRET ${{ env.JWT_SECRET != '' }}"
           echo "::set-output name=enableSetJWTSECRET::${{ env.JWT_SECRET != '' }}"
     - name: Set environment and start
-      if: outputs.enableSetJWTSECRET == 'true'
+      if: steps.CHECK_JWT.outputs.enableSetJWTSECRET == 'true'
       run: cf set-env ${{ inputs.SCP_APP_NAME }}_green JWT_SECRET "${{ secrets.JWT_SECRET }}"
     - name: Start app
       run: cf start ${{ inputs.SCP_APP_NAME }}_green
