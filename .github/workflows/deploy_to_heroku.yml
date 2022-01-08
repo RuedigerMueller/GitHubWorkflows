@@ -27,6 +27,9 @@ jobs:
         run: |
           echo ${{ secrets.HEROKU_API_KEY }} | docker login -u=_ --password-stdin registry.heroku.com
           docker pull ${{ inputs.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:undertest
+          echo '--- DOCKER TAG ---'
           docker tag ${{ inputs.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:undertest registry.heroku.com/${{ inputs.HEROKU_REPOSITORY }}/web
+          echo '--- PUSH HEROKU ---'
           docker push registry.heroku.com/${{ inputs.HEROKU_REPOSITORY }}/web
+          echo '--- CONTAINER RELEASE --- ${{ secrets.HEROKU_API_KEY }}'
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku container:release web --app ${{ inputs.HEROKU_REPOSITORY }}
