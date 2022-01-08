@@ -37,7 +37,7 @@ on:
 jobs:
   promoto_to_Heroku:
     runs-on: ubuntu-latest
-    environment: production
+    #environment: production
     steps:
       - name: Login to DockerHub
         uses: docker/login-action@v1
