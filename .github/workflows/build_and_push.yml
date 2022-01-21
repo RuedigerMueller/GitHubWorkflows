@@ -1,4 +1,4 @@
-name: Build Docker image and push to docker registry
+name: Build Docker imag and push to docker registry
 
 on:
   workflow_call:
@@ -9,6 +9,10 @@ on:
       DOCKERHUB_REPOSITORY:
         required: true
         type: string
+      DOCKERHUB_PUSH:
+        required: false
+        type: boolean
+        default: true
     secrets:
       DOCKERHUB_TOKEN:
         required: true
@@ -42,7 +46,7 @@ jobs:
            ${{ inputs.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:undertest
           # build on feature branches, push only on main branch
           #push: ${{ github.ref == 'refs/heads/main' }}
-          push: true
+          push: ${{ inputs.DOCKERHUB_PUSH }}
           cache-from: type=registry,ref=${{ inputs.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:buildcache
           cache-to: type=registry,ref=${{ inputs.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:buildcache,mode=max
 
