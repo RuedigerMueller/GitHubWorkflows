@@ -13,6 +13,10 @@ on:
         required: false
         type: boolean
         default: true
+      DOCKERHUB_TAG:
+        required: false
+        type: string
+        default: undertest
     secrets:
       DOCKERHUB_TOKEN:
         required: true
@@ -43,7 +47,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           # Note: tags has to be all lower-case
           tags: |
-           ${{ inputs.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:undertest
+           ${{ inputs.DOCKERHUB_USERNAME }}/${{ inputs.DOCKERHUB_REPOSITORY }}:${{ inputs.DOCKERHUB_TAG }}
           # build on feature branches, push only on main branch
           #push: ${{ github.ref == 'refs/heads/main' }}
           push: ${{ inputs.DOCKERHUB_PUSH }}
